@@ -28,12 +28,12 @@
 * Writing report in parallel
 * Bonus
 
-### W6(25.12):
+### W6(From 25.12):
 * Bonus
 * Clean code
 * GitHub repo
 
-### W7(01.01):
+### W7(From 01.01):
 * Minor changes to the report
 * Submit report / GitHub repo (Jan 10)
 * Prepare oral presentation
