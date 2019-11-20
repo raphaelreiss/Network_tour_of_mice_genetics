@@ -1,30 +1,30 @@
 # NTDS'2019 PLANNING
 
-### W1(19-20.11):
+### W1(From 19-20.11):
 
 * Tasks to achieve: √
-* reading: https://www.biorxiv.org/content/10.1101/672097v3.full
-* Acquisition:
-* bibliography
+* Reading: https://www.biorxiv.org/content/10.1101/672097v3.full
+* Acquisition (see Tasks)
+* Bibliography
 
 
-### W2(26-27.11):
-* Exploration:
+### W2(From 26-27.11):
+* Exploration (see Tasks)
 * Structure of project summary (will be the same for report)
-* submit project summary (submit on Dec 4):
+* Submit project summary (submit on Dec 4):
 * First results
 
-### W3(3-4.12):
-* submit peer review report (Dec 10) (10% of the grade):
-* Exploitation
+### W3(From 3-4.12):
+* Submit peer review report (Dec 10) (10% of the grade):
+* Exploitation (see Tasks)
 * Start writing report
 
-### W4(10-11.12):
-* Exploitation
+### W4(From 10-11.12):
+* Exploitation (see Tasks)
 * Writing report in parallel
 
-### W5(17-18.12):
-* Exploitation
+### W5(From 17-18.12):
+* Exploitation (see Tasks)
 * Writing report in parallel
 * Bonus
 
