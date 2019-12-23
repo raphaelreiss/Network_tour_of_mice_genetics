@@ -5,34 +5,37 @@
 	* Preprocessing (build graph if not already given, adjacency matrix, ...)
 2. Exploration
 	* Network properties
-		* Degree Distribution
-		* Connected components
-		* Sparsity
-		* Diameter
+		* Degree Distribution √
+		* connected components √
+		* sparsity √
+		* diameter √
 		* Spectral graph theory
 	* Network model:
 		* Identify type of graph
 		* Properties of the nodes (clustering coeff, modularity, centrality)
 	* Signal (attributes):
-		* Distribution
-		* Smoothness
+		* distribution
+		* smoothness
 		* Fourier transform
 3. Exploitation
 	* Tools use:
-		* Clustering
-		* Regularization
-		* Dimensionality reduction
-		* Graph filters
-		* Graph neural networks
+		* Questions:
+			-> Is it possible to predict a phenotype based on genetic ?
+		* clustering
+		* regularisation
+		* dimensionality reduction
+		* graph filters
+		* graph neural networks
 	* Critical evaluation
-		* Baseline / existing work
-		* Limitations
+		* baseline / existing work
+		* limitations
 	* Beyond tools
+		* Predict gene phenotype percentage!!
 4. Communication
-	* Report
-		* Structure
-		* Content
-	* Rral pres
-	* GitHub repo: README, LICENSE, documented, organization (notebooks and python modules),
+	* report
+		* structure
+		* content
+	* oral pres
+	* github repo: README, LICENSE, documented, organization (notebooks and python modules),
 	 	reproducible, good coding practice (comments, docstrings)
 	* (publish interactive visualization)

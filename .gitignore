@@ -1,6 +1,9 @@
 # Ignore data
-data/
+data
 
 # Ignore checkpoints
 *.ipynb_*
 
+# Ignore pictures
+*.jpg
+*.png
