@@ -1,37 +1,92 @@
+import scipy
 import numpy as np
-import networkx as nx
+import networkx as nxs
 from tabulate import tabulate
+import matplotlib.pyplot as plt
 from scipy.spatial.distance import pdist, squareform
-
 
 ### Adjacency matrix building ###
 
-def epsilon_similarity_graph(X: np.ndarray, metric='euclidean', sigma=1, epsilon=0):
-    """ X (n x d): coordinates of the n data points in R^d.
-        sigma (float): width of the kernel
-        epsilon (float): threshold
-        Return:
-        adjacency (n x n ndarray): adjacency matrix of the graph.
-    """
-    Dists = squareform(pdist(X,metric = "euclidean"))
-    Dists = np.exp(-Dists**2/(2 * sigma**2))
-    Dists[Dists <= epsilon] = 0
-    np.fill_diagonal(Dists,0)
-    return Dists
+def distance_scipy_spatial(z, k=4, metric='euclidean'):
+    """Compute exact pairwise distances. *Crédits to M. Defferrard*"""
+    d = scipy.spatial.distance.pdist(z, metric)
+    d = scipy.spatial.distance.squareform(d)
+    # k-NN graph.
+    idx = np.argsort(d)[:, 1:k+1]
+    d.sort()
+    d = d[:, 1:k+1]
+    return d, idx
+
+def adjacency(dist, idx):
+    """Return the adjacency matrix of a kNN graph. *Crédits to M. Defferrard*"""
+    M, k = dist.shape
+    assert M, k == idx.shape
+    assert dist.min() >= 0
+
+    # Weights.
+    sigma2 = np.mean(dist[:, -1])**2
+    dist = np.exp(- dist**2 / sigma2)
+
+    # Weight matrix.
+    I = np.arange(0, M).repeat(k)
+    J = idx.reshape(M*k)
+    V = dist.reshape(M*k)
+    W = scipy.sparse.coo_matrix((V, (I, J)), shape=(M, M))
+
+    # No self-connections.
+    W.setdiag(0)
+
+    # Non-directed graph.
+    bigger = W.T > W
+    W = W - W.multiply(bigger) + W.T.multiply(bigger)
+
+    assert W.nnz % 2 == 0
+    assert np.abs(W - W.T).mean() < 1e-10
+    assert type(W) is scipy.sparse.csr.csr_matrix
+    return W
 
 
-def build_adj_from_strain(genotype_df, strains, metric, sigma, epsilon):
-    """ Build adjacency matrix using whole data filtered by the strains parameter """
-
-    filtered_df = genotype_df[genotype_df.index.isin(strains)].copy()
-    filtered_df.sort_index(inplace=True)
-    adj = epsilon_similarity_graph(filtered_df.values, \
-                                   metric=metric, sigma=sigma, epsilon=epsilon)
-    return adj
+# def epsilon_similarity_graph(X: np.ndarray, metric='euclidean', sigma=1, epsilon=0):
+#     """ X (n x d): coordinates of the n data points in R^d.
+#         sigma (float): width of the kernel
+#         epsilon (float): threshold
+#         Return:
+#         adjacency (n x n ndarray): adjacency matrix of the graph.
+#     """
+#     Dists = squareform(pdist(X,metric = "euclidean"))
+#     Dists = np.exp(-Dists**2/(2 * sigma**2))
+#     Dists[Dists <= epsilon] = 0
+#     np.fill_diagonal(Dists,0)
+#     return Dists
+#
+#
+# def build_adj_from_strain(genotype_df, strains, metric, sigma, epsilon):
+#     """ Build adjacency matrix using whole data filtered by the strains parameter """
+#
+#     filtered_df = genotype_df[genotype_df.index.isin(strains)].copy()
+#     filtered_df.sort_index(inplace=True)
+#     adj = epsilon_similarity_graph(filtered_df.values, \
+#                                    metric=metric, sigma=sigma, epsilon=epsilon)
+#     return adj
 
 
 ### Graph stats ###
 
+def print_remaining_data(adjacency):
+    print("{:0.2f} % of the original data is kept"\
+          .format(adjacency[adjacency.nonzero()].size / adjacency.size * 100))
+
+def plot_distrib(adjacency):
+    """ Plot the density of kerneled distances
+
+    Args:
+        adjacency (np.ndarray): adjacency matrix
+
+    """
+    assert isinstance(adjacency, np.ndarray)
+
+    non_zero = adjacency[adjacency > 0.]
+    plt.plot(np.sort(non_zero)[::-1])
 
 def graph_basic_stats(G):
     """ Print basic stats for a nx.Graph()"""
