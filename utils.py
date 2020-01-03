@@ -1,6 +1,7 @@
 import scipy
 import numpy as np
-import networkx as nxs
+import collections
+import networkx as nx
 from tabulate import tabulate
 import matplotlib.pyplot as plt
 from scipy.spatial.distance import pdist, squareform
@@ -72,7 +73,27 @@ def adjacency(dist, idx):
 
 ### Graph stats ###
 
+def graph_moment(G, order=1):
+    """Compute the moments of of the graph"""
+    assert isinstance(G, nx.Graph)
+
+    # Build degree counter
+    degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
+    degreeCount = collections.Counter(degree_sequence)
+    deg_cnt = zip(*degreeCount.items())
+
+    return sum(map(lambda x: x[0] ** order * x[1], degreeCount.items())) / len(degree_sequence)
+
+def plot_degree_histogram(G, ax):
+    """Plot the histogram of the edge degree for the graph G"""
+    degree_sequence = sorted([d for n, d in G.degree()], reverse=True)  # degree sequence
+    degreeCount = collections.Counter(degree_sequence)
+    deg, cnt = zip(*degreeCount.items())
+
+    ax.bar(deg, cnt, label='Histogram')
+
 def print_remaining_data(adjacency):
+    """Print the percentage of data that is non zero"""
     print("{:0.2f} % of the original data is kept"\
           .format(adjacency[adjacency.nonzero()].size / adjacency.size * 100))
 
@@ -90,18 +111,16 @@ def plot_distrib(adjacency):
 
 def graph_basic_stats(G):
     """ Print basic stats for a nx.Graph()"""
+    assert isinstance(G, nx.Graph)
+    
     nodes_number = G.number_of_nodes()
     edges_number = G.number_of_edges()
 
-    g_degree = G.degree()
-    sum_degree = sum(dict(g_degree).values())
-    average_degree = sum_degree / nodes_number
 
     tab = [
         ["Number of nodes", nodes_number],
         ["Number of edges", edges_number],
         ["Graph density", round(nx.classes.function.density(G) * 100, 2)],
-        ["Average degree", round(average_degree, 2)],
         ["Number of connected components", nx.number_connected_components(G)],
         ["Average clustering coefficient", round(nx.average_clustering(G), 2)],
         ["Diameter of the network (longest shortest path)", nx.diameter(G)]
