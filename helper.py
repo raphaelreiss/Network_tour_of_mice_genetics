@@ -20,7 +20,7 @@ def get_adjacency(X: np.ndarray, dist_metric, sigma=1, epsilon=0):
         adjacency (n x n ndarray): adjacency matrix of the graph.
     """
     dist = squareform(pdist(X, metric=dist_metric))
-    adjacency = np.exp(- dist ** 2 / (2 * sigma ** 2))
+    adjacency = gaussian_kernel(dist,sigma)
     adjacency[adjacency < epsilon] = 0
     np.fill_diagonal(adjacency, 0)
     return adjacency
