@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 from scipy.spatial.distance import pdist, squareform
 
 ### Adjacency matrix building ###
-
 def distance_scipy_spatial(z, k=4, metric='euclidean'):
     """Compute exact pairwise distances. *Crédits to M. Defferrard*"""
     d = scipy.spatial.distance.pdist(z, metric)
@@ -46,30 +45,13 @@ def adjacency(dist, idx):
     assert type(W) is scipy.sparse.csr.csr_matrix
     return W
 
+def adjacency_subset(genotype_df, strains, metric, k=4):
+    """ Build adjacency matrix using whole data filtered by the strains name"""
 
-# def epsilon_similarity_graph(X: np.ndarray, metric='euclidean', sigma=1, epsilon=0):
-#     """ X (n x d): coordinates of the n data points in R^d.
-#         sigma (float): width of the kernel
-#         epsilon (float): threshold
-#         Return:
-#         adjacency (n x n ndarray): adjacency matrix of the graph.
-#     """
-#     Dists = squareform(pdist(X,metric = "euclidean"))
-#     Dists = np.exp(-Dists**2/(2 * sigma**2))
-#     Dists[Dists <= epsilon] = 0
-#     np.fill_diagonal(Dists,0)
-#     return Dists
-#
-#
-# def build_adj_from_strain(genotype_df, strains, metric, sigma, epsilon):
-#     """ Build adjacency matrix using whole data filtered by the strains parameter """
-#
-#     filtered_df = genotype_df[genotype_df.index.isin(strains)].copy()
-#     filtered_df.sort_index(inplace=True)
-#     adj = epsilon_similarity_graph(filtered_df.values, \
-#                                    metric=metric, sigma=sigma, epsilon=epsilon)
-#     return adj
-
+    filtered_df = genotype_df.loc[strains].copy(deep=True)
+    filtered_df.sort_index(inplace=True)
+    genetic_distance, idx = distance_scipy_spatial(filtered_df.values, k, metric=metric)
+    return adjacency(genetic_distance, idx)
 
 ### Graph stats ###
 
@@ -112,7 +94,7 @@ def plot_distrib(adjacency):
 def graph_basic_stats(G):
     """ Print basic stats for a nx.Graph()"""
     assert isinstance(G, nx.Graph)
-    
+
     nodes_number = G.number_of_nodes()
     edges_number = G.number_of_edges()
 
