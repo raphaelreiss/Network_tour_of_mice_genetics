@@ -1,2 +1,6 @@
 # Ignore data
 data/
+
+# Ignore checkpoints
+*.ipynb_*
+
