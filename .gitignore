@@ -7,3 +7,18 @@ data
 # Ignore pictures
 *.jpg
 *.png
+
+# Ignore trials
+1
+Trials
+
+# Ignore folders
+runs
+imbalancedSampler
+# Ingore gephi source
+gephi
+
+# ignore files
+
+*.pdf
+imbalancedSampler.py
