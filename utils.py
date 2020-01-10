@@ -46,6 +46,14 @@ def adjacency(dist, idx):
     assert type(W) is scipy.sparse.csr.csr_matrix
     return W
 
+def adjacency_subset(genotype_df, strains, metric, k=4):
+    """ Build adjacency matrix using whole data filtered by the strains name"""
+
+    filtered_df = genotype_df.loc[strains].copy(deep=True)
+    filtered_df.sort_index(inplace=True)
+    genetic_distance, idx = distance_scipy_spatial(filtered_df.values, k, metric=metric)
+    return adjacency(genetic_distance, idx)
+
 
 # def epsilon_similarity_graph(X: np.ndarray, metric='euclidean', sigma=1, epsilon=0):
 #     """ X (n x d): coordinates of the n data points in R^d.
