@@ -6,7 +6,7 @@ Personalized medicine has gain much attention in recent years with the drastic r
 
 ## Getting Started
 
-Find the notebook and the utils in the '''src''' folder
+Find the notebook and the utils in the `src` folder
 
 ### Prerequisites
 
