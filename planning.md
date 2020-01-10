@@ -2,7 +2,7 @@
 
 ### W1(From 19-20.11):
 
-* Tasks to achieve: √
+* Tasks to achieve:
 * Reading: https://www.biorxiv.org/content/10.1101/672097v3.full
 * Acquisition (see Tasks)
 * Bibliography
@@ -39,4 +39,4 @@
 * Prepare oral presentation
 
 ### ORAL PRESENTATION JAN 21-22
-* submit slides on Jan 24
+* submit slides
